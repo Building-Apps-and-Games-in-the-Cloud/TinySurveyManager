@@ -1,14 +1,11 @@
 import { SurveyHelper as SurveyManager } from './surveymanager.mjs';
 import express from 'express';
-import cookieParser from 'cookie-parser';
 
 // Create the express application
 const app = express();
 
 // Create a survey manager
 let surveyManager = new SurveyManager();
-// Initialize the survey manager
-surveyManager.init();
 
 const port = 8080;
 
@@ -17,9 +14,6 @@ app.set('view-engine', 'ejs');
 
 // Select the middleware to decode incoming posts
 app.use(express.urlencoded({ extended: false }));
-
-// Add the cookie parser middleware
-app.use(cookieParser());
 
 // Home page
 app.get('/index.html', (request, response) => {
@@ -38,24 +32,9 @@ app.post('/gottopic', (request, response) => {
       { topic: topic, numberOfOptions: 5 });
   }
   else {
-    // Need to check if the survey has already been filled in
-
-    if (request.cookies.completedSurveys) {
-      // Got a completed surveys cookie
-      let completedSurveys = JSON.parse(request.cookies.completedSurveys);
-
-      if (completedSurveys.includes(topic)) {
-        // This survey has already been filled in at this browser
-        // Just display the results
-        let results = surveyManager.getCounts(topic);
-        response.render('displayresults.ejs', results);
-      }
-    }
-    else {
-      // enter scores on an existing survey
-      let surveyOptions = surveyManager.getOptions(topic);
-      response.render('selectoption.ejs', surveyOptions);
-    }
+    // enter scores on an existing survey
+    let surveyOptions = surveyManager.getOptions(topic);
+    response.render('selectoption.ejs', surveyOptions);
   }
 });
 
@@ -99,27 +78,11 @@ app.post('/recordselection/:topic', (request, response) => {
     response.status(404).send('<h1>Survey not found</h1>');
   }
   else {
-    let completedSurveysJSON = request.cookies.completedSurveys;
-    let completedSurveys;
-    if (completedSurveysJSON) {
-      // Got a completed surveys cookie string - parse it
-      completedSurveys = JSON.parse(completedSurveysJSON);
-    }
-    else {
-      // no surveys yet
-      completedSurveys = [];
-    }
-
-    if (!completedSurveys.includes(topic)) {
-      // This survey has not been filled in at this browser
-      let optionSelected = request.body.selections;
-      // Build an increment description
-      let incDetails = {topic:topic, option:optionSelected};
-      surveyManager.incrementCount(incDetails);
-      completedSurveys.push(topic);
-      completedSurveysJSON = JSON.stringify(completedSurveys);
-      response.cookie("completedSurveys", completedSurveysJSON);
-    }
+    // store the survey
+    let optionSelected = request.body.selections;
+    // Build an increment description
+    let incDetails = { topic: topic, option: optionSelected };
+    surveyManager.incrementCount(incDetails);
     let results = surveyManager.getCounts(topic);
     response.render('displayresults.ejs', results);
   }

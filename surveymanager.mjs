@@ -3,23 +3,15 @@ import { Survey, Surveys } from './surveystore.mjs'
 class SurveyManager{
 
     /**
-     * Make a new helper. Note that it will need to be initialised
-     * before use
+     * Make a new helper store
      */
     constructor(){
-        this.surveys = null;
-    }
-
-    /** 
-     * Initialise the survey helper
-     */
-    init(){
         this.surveys = new Surveys();
     }
 
     /**
      * Stores a survey
-     * @param {topic} string and option list newValue 
+     * @param {Object} newValue string and option list  
      */
     storeSurvey(newValue){
         let survey = new Survey(newValue);
@@ -28,7 +20,7 @@ class SurveyManager{
 
     /**
      * Increment the count for an option in a topic
-     * @param {topic and option string} incDetails 
+     * @param {Object} incDetails topic and option names
      */
     incrementCount(incDetails){
         let topic = incDetails.topic;
@@ -39,7 +31,7 @@ class SurveyManager{
 
     /**
      * 
-     * @param {string} topic of the survey
+     * @param {string} topic topic of the survey
      * @returns true if the survey exists
      */
     surveyExists(topic){
