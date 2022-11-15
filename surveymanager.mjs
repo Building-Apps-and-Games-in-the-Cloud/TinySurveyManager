@@ -11,7 +11,7 @@ class SurveyManager{
 
     /**
      * Stores a survey
-     * @param {Object} newValue string and option list  
+     * @param {Object} newValue topic string and option list  
      */
     storeSurvey(newValue){
         let survey = new Survey(newValue);
@@ -29,7 +29,7 @@ class SurveyManager{
         survey.incrementCount(option);
     }
 
-    
+
     surveyExists(topic){
         return this.surveys.getSurveyByTopic(topic) != undefined;
     }
@@ -45,7 +45,7 @@ class SurveyManager{
     }
 
     /**
-     * get 
+     * 
      * @param {topic of the survey} topic 
      * @returns topic and a list of option names
      */
