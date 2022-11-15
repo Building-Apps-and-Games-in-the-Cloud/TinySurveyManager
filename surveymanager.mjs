@@ -29,11 +29,7 @@ class SurveyManager{
         survey.incrementCount(option);
     }
 
-    /**
-     * 
-     * @param {string} topic topic of the survey
-     * @returns true if the survey exists
-     */
+    
     surveyExists(topic){
         return this.surveys.getSurveyByTopic(topic) != undefined;
     }
