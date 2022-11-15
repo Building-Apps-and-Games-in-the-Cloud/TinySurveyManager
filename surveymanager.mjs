@@ -1,11 +1,11 @@
 import { Survey, Surveys } from './surveystore.mjs'
 
-class SurveyManager{
+class SurveyManager {
 
     /**
      * Make a new helper store
      */
-    constructor(){
+    constructor() {
         this.surveys = new Surveys();
     }
 
@@ -13,7 +13,7 @@ class SurveyManager{
      * Stores a survey
      * @param {Object} newValue topic string and option list  
      */
-    storeSurvey(newValue){
+    storeSurvey(newValue) {
         let survey = new Survey(newValue);
         this.surveys.saveSurvey(survey);
     }
@@ -22,15 +22,14 @@ class SurveyManager{
      * Increment the count for an option in a topic
      * @param {Object} incDetails topic and option names
      */
-    incrementCount(incDetails){
+    incrementCount(incDetails) {
         let topic = incDetails.topic;
         let option = incDetails.option;
-        let survey = this.surveys.getSurveyByTopic(topic);        
+        let survey = this.surveys.getSurveyByTopic(topic);
         survey.incrementCount(option);
     }
 
-
-    surveyExists(topic){
+    surveyExists(topic) {
         return this.surveys.getSurveyByTopic(topic) != undefined;
     }
 
@@ -39,7 +38,7 @@ class SurveyManager{
      * @param {string} topic of the survey
      * @returns topic and a list of option names and counts
      */
-    getCounts(topic){
+    getCounts(topic) {
         let survey = this.surveys.getSurveyByTopic(topic);
         return survey.getCounts();
     }
@@ -49,11 +48,11 @@ class SurveyManager{
      * @param {topic of the survey} topic 
      * @returns topic and a list of option names
      */
-    getOptions(topic){
+    getOptions(topic) {
         let survey = this.surveys.getSurveyByTopic(topic);
         return survey.getOptions();
     }
 }
 
-export {SurveyManager as SurveyHelper} ;
+export { SurveyManager as SurveyManager };
 

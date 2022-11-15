@@ -1,4 +1,4 @@
-import { SurveyHelper as SurveyManager } from './surveymanager.mjs';
+import { SurveyManager } from './surveymanager.mjs';
 import express from 'express';
 
 // Create the express application
